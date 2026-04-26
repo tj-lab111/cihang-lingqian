@@ -1,16 +1,19 @@
-// 慈航灵签抽签逻辑
+// 古签解语 - 抽签逻辑
 
 document.addEventListener('DOMContentLoaded', function() {
     // 元素引用
     const initialState = document.getElementById('initial-state');
     const drawingState = document.getElementById('drawing-state');
+    const poemState = document.getElementById('poem-state');
     const resultState = document.getElementById('result-state');
     const drawBtn = document.getElementById('draw-btn');
+    const unlockBtn = document.getElementById('unlock-btn');
     const drawAgainBtn = document.getElementById('draw-again-btn');
+    const drawAgainBtnEarly = document.getElementById('draw-again-btn-early');
     const shareBtn = document.getElementById('share-btn');
     const stickContainer = document.getElementById('stick-container');
     
-    // 签筒中的签
+    // 状态
     let sticks = [];
     let isDrawing = false;
     let currentQian = null;
@@ -33,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function switchState(stateName) {
         initialState.classList.remove('active');
         drawingState.classList.remove('active');
+        poemState.classList.remove('active');
         resultState.classList.remove('active');
         
         switch(stateName) {
@@ -41,6 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             case 'drawing':
                 drawingState.classList.add('active');
+                break;
+            case 'poem':
+                poemState.classList.add('active');
                 break;
             case 'result':
                 resultState.classList.add('active');
@@ -53,14 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return new Promise((resolve) => {
             switchState('drawing');
             
-            // 随机选择一根签
+            // 随机选择一根签跳动
             const selectedIndex = Math.floor(Math.random() * sticks.length);
             const selectedStick = sticks[selectedIndex];
-            
-            // 添加跳动动画
             selectedStick.classList.add('jumping');
             
-            // 2秒后显示结果
+            // 2秒后显示签诗
             setTimeout(() => {
                 currentQian = getRandomQian();
                 resolve();
@@ -68,8 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 显示结果
-    function showResult(qian) {
+    // 显示签诗（第一阶段）
+    function showPoem(qian) {
         // 签号
         document.getElementById('qian-number').textContent = qian.number;
         
@@ -82,22 +87,37 @@ document.addEventListener('DOMContentLoaded', function() {
         const poemElement = document.getElementById('poem');
         poemElement.innerHTML = qian.poem.map(line => `<p>${line}</p>`).join('');
         
-        // 解曰
+        switchState('poem');
+    }
+    
+    // 显示详细解签（第二阶段）
+    function showFullResult(qian) {
+        // 签号和类型
+        document.getElementById('qian-number2').textContent = qian.number;
+        const typeElement2 = document.getElementById('qian-type2');
+        typeElement2.textContent = qian.typeName;
+        typeElement2.className = 'qian-type ' + qian.type;
+        
+        // 签文（简化版）
+        const poemElement2 = document.getElementById('poem2');
+        poemElement2.innerHTML = qian.poem.map(line => `<p>${line}</p>`).join('');
+        
+        // 签解
         document.getElementById('interpretation').textContent = qian.interpretation;
         
-        // 仙机
+        // 各事指引
         const guidanceElement = document.getElementById('guidance');
         guidanceElement.innerHTML = Object.entries(qian.guidance).map(([key, value]) => 
             `<div class="guidance-item"><span>${key}</span><span>${value}</span></div>`
         ).join('');
         
-        // 观音指引
+        // 建议
         document.getElementById('advice').textContent = qian.advice;
         
         switchState('result');
     }
     
-    // 重置并重新抽签
+    // 重置
     function reset() {
         currentQian = null;
         initSticks();
@@ -109,26 +129,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!currentQian) return;
         
         const shareText = `
-🙏 慈航灵签 · ${currentQian.number} 🙏
+📜 古签解语 · ${currentQian.number} 📜
 【${currentQian.typeName}】
 
-📜 签文：
+签文：
 ${currentQian.poem.join('\n')}
 
-💡 解曰：
-${currentQian.interpretation}
-
-🙏 愿观世音菩萨保佑 🙏
+🙏 愿签诗指引方向 🙏
         `.trim();
         
-        // 尝试使用 Web Share API
         if (navigator.share) {
             navigator.share({
-                title: '慈航灵签',
+                title: '古签解语',
                 text: shareText,
                 url: window.location.href
             }).catch(err => {
-                // 用户取消或其他错误
                 copyToClipboard(shareText);
             });
         } else {
@@ -136,12 +151,10 @@ ${currentQian.interpretation}
         }
     }
     
-    // 复制到剪贴板
     function copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(() => {
-            alert('签文已复制到剪贴板，可以分享给朋友了！');
+            alert('签文已复制到剪贴板！');
         }).catch(err => {
-            // 备用方案
             const textarea = document.createElement('textarea');
             textarea.value = text;
             document.body.appendChild(textarea);
@@ -152,7 +165,9 @@ ${currentQian.interpretation}
         });
     }
     
-    // 事件绑定
+    // === 事件绑定 ===
+    
+    // 摇签按钮
     drawBtn.addEventListener('click', async function() {
         if (isDrawing) return;
         isDrawing = true;
@@ -162,7 +177,7 @@ ${currentQian.interpretation}
         
         try {
             await animateDrawing();
-            showResult(currentQian);
+            showPoem(currentQian);
         } finally {
             isDrawing = false;
             drawBtn.disabled = false;
@@ -170,10 +185,21 @@ ${currentQian.interpretation}
         }
     });
     
-    drawAgainBtn.addEventListener('click', function() {
-        reset();
+    // 解锁解签按钮
+    unlockBtn.addEventListener('click', function() {
+        if (!currentQian) {
+            alert('请先抽签');
+            return;
+        }
+        // 直接显示解签（实际项目中可以验证付款）
+        showFullResult(currentQian);
     });
     
+    // 重新抽签按钮
+    drawAgainBtn.addEventListener('click', reset);
+    drawAgainBtnEarly.addEventListener('click', reset);
+    
+    // 分享按钮
     shareBtn.addEventListener('click', shareQian);
     
     // 签筒交互效果
@@ -192,14 +218,14 @@ ${currentQian.interpretation}
     // 初始化
     initSticks();
     
-    // 添加页面加载动画
+    // 页面加载动画
     document.body.style.opacity = '0';
     setTimeout(() => {
         document.body.style.transition = 'opacity 0.5s ease';
         document.body.style.opacity = '1';
     }, 100);
     
-    // 添加键盘快捷键
+    // 键盘快捷键
     document.addEventListener('keydown', function(e) {
         if (e.code === 'Space' || e.code === 'Enter') {
             if (initialState.classList.contains('active')) {
@@ -210,7 +236,7 @@ ${currentQian.interpretation}
         }
     });
     
-    // 添加触摸支持
+    // 触摸支持
     let touchStartY = 0;
     
     document.addEventListener('touchstart', function(e) {
@@ -221,13 +247,12 @@ ${currentQian.interpretation}
         const touchEndY = e.changedTouches[0].clientY;
         const diff = touchStartY - touchEndY;
         
-        // 向上滑动触发抽签
         if (diff > 50 && initialState.classList.contains('active')) {
             drawBtn.click();
         }
     });
     
-    // 添加背景动画粒子
+    // 背景粒子动画
     function createParticle() {
         const particle = document.createElement('div');
         particle.style.cssText = `
@@ -275,14 +300,6 @@ ${currentQian.interpretation}
     setInterval(createParticle, 1000);
     
     // 控制台彩蛋
-    console.log('%c🙏 慈航灵签 🙏', 'font-size: 24px; color: #d4af37; font-weight: bold;');
-    console.log('%c南无大慈大悲观世音菩萨', 'font-size: 14px; color: #c9a959;');
-    console.log('%c诚心祈愿，心诚则灵', 'font-size: 12px; color: #888;');
+    console.log('%c📜 古签解语 📜', 'font-size: 24px; color: #d4af37; font-weight: bold;');
+    console.log('%c传统签诗 · 心诚则灵', 'font-size: 14px; color: #c9a959;');
 });
-
-// PWA 支持（可选）
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        // navigator.serviceWorker.register('/sw.js');
-    });
-}
