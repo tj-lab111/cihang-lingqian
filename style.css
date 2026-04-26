@@ -451,51 +451,51 @@
    451|    padding-left: 1em;
    452|}
    453|
-   454|/* 付款区域 */
-   455|.payment-section {
-   456|    background: linear-gradient(135deg, rgba(139, 0, 0, 0.08), rgba(212, 175, 55, 0.08));
-   457|    padding: 20px;
+   454|/* 解签按钮区域 */
+   455|.unlock-section {
+   456|    padding: 20px;
+   457|    text-align: center;
    458|    border-top: 2px dashed var(--border-color);
-   459|    text-align: center;
+   459|    background: linear-gradient(135deg, rgba(139, 0, 0, 0.05), rgba(212, 175, 55, 0.05));
    460|}
    461|
-   462|.payment-header {
-   463|    font-size: 1.2rem;
-   464|    color: var(--dark-red);
-   465|    font-weight: 600;
-   466|    margin-bottom: 12px;
-   467|}
-   468|
-   469|.payment-info-box {
-   470|    margin-bottom: 15px;
-   471|}
-   472|
-   473|.payment-info-box .info-text {
-   474|    font-size: 1rem;
-   475|    color: #444;
-   476|    margin-bottom: 5px;
-   477|}
-   478|
-   479|.payment-info-box .price {
-   480|    color: #c41e3a;
-   481|    font-weight: bold;
-   482|    font-size: 1.1rem;
-   483|}
-   484|
-   485|.payment-info-box .info-sub {
-   486|    font-size: 0.85rem;
-   487|    color: #888;
-   488|    margin-bottom: 3px;
-   489|}
-   490|
-   491|.unlock-btn {
-   492|    display: inline-block;
-   493|    padding: 12px 30px;
-   494|    font-size: 1rem;
-   495|    font-family: 'Noto Serif SC', serif;
-   496|    background: linear-gradient(135deg, #c41e3a, #8b0000);
-   497|    color: white;
-   498|    border: none;
-   499|    border-radius: 20px;
-   500|    cursor: pointer;
+   462|.unlock-btn {
+   463|    display: inline-block;
+   464|    padding: 14px 40px;
+   465|    font-size: 1.1rem;
+   466|    font-family: 'Noto Serif SC', serif;
+   467|    background: linear-gradient(135deg, #c41e3a, #8b0000);
+   468|    color: white;
+   469|    border: none;
+   470|    border-radius: 25px;
+   471|    cursor: pointer;
+   472|    transition: all 0.3s ease;
+   473|    box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
+   474|}
+   475|
+   476|.unlock-btn:hover {
+   477|    transform: scale(1.05);
+   478|    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.6);
+   479|}
+   480|
+   481|/* 详细解读 */
+   482|.detail-section {
+   483|    padding: 20px;
+   484|    background: rgba(139, 0, 0, 0.03);
+   485|    border-top: 1px solid var(--border-color);
+   486|}
+   487|
+   488|.detail-section h3 {
+   489|    color: var(--dark-red);
+   490|    font-size: 1.1rem;
+   491|    margin-bottom: 12px;
+   492|}
+   493|
+   494|.detail-section p {
+   495|    line-height: 1.9;
+   496|    margin-bottom: 10px;
+   497|    text-align: justify;
+   498|}
+   499|
+   500|/* 按钮区域 */
    501|
