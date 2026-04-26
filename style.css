@@ -361,6 +361,186 @@ header h1 {
     text-align: center;
 }
 
+/* 解曰预览（免费） */
+.jie-preview {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(139, 0, 0, 0.05);
+    border-radius: 5px;
+    border-left: 3px solid var(--dark-red);
+}
+
+.jie-preview h4 {
+    color: var(--dark-red);
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.jie-preview-content {
+    color: #444;
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+/* 运势模糊预览 */
+.fortune-preview {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(0,0,0,0.03);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.fortune-preview h4 {
+    color: var(--dark-red);
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.fortune-preview.blurred .fortune-blur-text {
+    color: #999;
+    line-height: 2;
+    font-family: monospace;
+}
+
+.fortune-preview .unlock-hint {
+    display: block;
+    margin-top: 10px;
+    color: var(--primary-gold);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.9rem;
+}
+
+/* 签纸装饰 */
+.paper-border {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border: 2px solid var(--secondary-gold);
+    border-radius: 3px;
+    pointer-events: none;
+}
+
+.paper-border::before {
+    content: '福';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--paper-bg);
+    padding: 0 10px;
+    color: var(--primary-gold);
+    font-size: 1rem;
+}
+
+/* 验证输入区域 */
+.verify-section {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 8px;
+}
+
+.verify-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.verify-input-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+.verify-input {
+    width: 120px;
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    text-align: center;
+    border: 2px solid var(--secondary-gold);
+    border-radius: 8px;
+    background: white;
+    color: var(--ink-color);
+    font-family: monospace;
+    letter-spacing: 0.3em;
+}
+
+.verify-input:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.verify-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: var(--primary-gold);
+    color: var(--deep-brown);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.verify-btn:hover {
+    background: var(--secondary-gold);
+    transform: scale(1.05);
+}
+
+.verify-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.verify-error {
+    color: #c41e3a;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    min-height: 1.2em;
+}
+
+/* 解锁按钮状态 */
+.unlock-button {
+    display: block;
+    width: 220px;
+    margin: 15px auto 0;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-family: 'Noto Serif SC', serif;
+    background: linear-gradient(135deg, #ccc, #999);
+    color: #666;
+    border: none;
+    border-radius: 25px;
+    cursor: not-allowed;
+    transition: all 0.3s ease;
+}
+
+.unlock-button.verified {
+    background: linear-gradient(135deg, #c41e3a, #8b0000);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
+}
+
+.unlock-button.verified:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.6);
+}
+
+/* 付款特性列表 */
+.unlock-features {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
 /* 解曰区域 */
 .interpretation-section {
     margin: 25px 0;
