@@ -12,7 +12,7 @@
         <header>
             <div class="lotus-decoration">🪷</div>
             <h1>古 签 解 语</h1>
-            <p class="subtitle">传统签诗 · 心诚则灵</p>
+            <p class="subtitle">传统签诗 · 有求必应</p>
             <div class="lotus-decoration">🪷</div>
         </header>
 
@@ -26,7 +26,6 @@
                 
                 <div class="qian-tong" id="qian-tong">
                     <div class="stick-container" id="stick-container">
-                        <!-- 签会动态生成 -->
                     </div>
                     <div class="qian-base"></div>
                 </div>
@@ -48,38 +47,49 @@
             <!-- 第一阶段：显示签诗 -->
             <div id="poem-state" class="state">
                 <div class="result-container poem-only">
+                    <!-- 签头 -->
                     <div class="qian-header">
-                        <div class="qian-number" id="qian-number">第壹签</div>
-                        <div class="qian-type" id="qian-type">上上签</div>
+                        <div class="qian-title">有求必应</div>
                     </div>
                     
-                    <div class="qian-content">
-                        <div class="poem-section">
-                            <h3>📜 签 文</h3>
-                            <div class="poem" id="poem">
-                                <!-- 签文会动态填充 -->
-                            </div>
-                        </div>
-                        
-                        <div class="poem-note">
-                            <p>签诗为传统民俗文化，流传已久</p>
+                    <!-- 签号和宫位 -->
+                    <div class="qian-meta">
+                        <div class="qian-number" id="qian-number">第四十六签</div>
+                        <div class="qian-gong" id="qian-gong">戌宫</div>
+                        <div class="qian-type" id="qian-type">中签</div>
+                    </div>
+                    
+                    <!-- 古人典故 -->
+                    <div class="guren-section">
+                        <span class="guren-label">古人典故：</span>
+                        <span class="guren-name" id="guren-name">渭水钓鱼</span>
+                    </div>
+                    
+                    <!-- 签诗 -->
+                    <div class="poem-section">
+                        <h3>诗 曰</h3>
+                        <div class="poem-vertical" id="poem">
                         </div>
                     </div>
                     
+                    <div class="poem-note">
+                        <p>签诗为传统民俗文化，流传已久</p>
+                    </div>
+                    
+                    <!-- 付费解锁 -->
                     <div class="unlock-section">
                         <h3>🔮 解签指引</h3>
                         <p class="unlock-desc">扫码支付 <span class="price">¥0.1</span> 获取详细解签</p>
                         
                         <div class="payment-box">
                             <div class="qr-placeholder" id="qr-code">
-                                <!-- 二维码图片位置 -->
                                 <img src="qr-code.png" alt="收款二维码" class="qr-image" onerror="this.style.display='none'; document.getElementById('qr-fallback').style.display='block';">
                                 <div id="qr-fallback" class="qr-fallback" style="display:none;">
-                                    <p>📱 请添加微信获取解签</p>
-                                    <p class="wechat-id">ID: your-wechat-id</p>
+                                    <p>📱 请联系解签</p>
                                 </div>
                             </div>
                             <p class="payment-hint">支付宝扫码支付 ¥0.1</p>
+                            <p class="payment-remark">💡 付款备注请填：<span id="pay-remark">古签</span></p>
                         </div>
                         
                         <button id="unlock-btn" class="unlock-button">
@@ -95,34 +105,53 @@
 
             <!-- 第二阶段：显示详细解签 -->
             <div id="result-state" class="state">
-                <div class="result-container">
+                <div class="result-container full-result">
+                    <!-- 签头 -->
                     <div class="qian-header">
-                        <div class="qian-number" id="qian-number2">第壹签</div>
-                        <div class="qian-type" id="qian-type2">上上签</div>
+                        <div class="qian-title">有求必应</div>
+                    </div>
+                    
+                    <!-- 签号和宫位 -->
+                    <div class="qian-meta">
+                        <div class="qian-number" id="qian-number2">第四十六签</div>
+                        <div class="qian-gong" id="qian-gong2">戌宫</div>
+                        <div class="qian-type" id="qian-type2">中签</div>
+                    </div>
+                    
+                    <!-- 古人典故 -->
+                    <div class="guren-section">
+                        <span class="guren-label">古人典故：</span>
+                        <span class="guren-name" id="guren-name2">渭水钓鱼</span>
                     </div>
                     
                     <div class="qian-content">
+                        <!-- 签诗 -->
                         <div class="poem-section compact">
-                            <h3>📜 签文</h3>
-                            <div class="poem" id="poem2">
-                                <!-- 签文会动态填充 -->
+                            <h3>诗 曰</h3>
+                            <div class="poem-vertical small" id="poem2">
                             </div>
                         </div>
                         
+                        <!-- 解曰 -->
                         <div class="interpretation-section">
-                            <h3>📖 签解</h3>
-                            <p id="interpretation"></p>
-                            <p class="ai-note">（此解签内容由AI生成，仅供参考）</p>
+                            <h3>解 曰</h3>
+                            <div class="jie-container">
+                                <div class="jie-main" id="jie-main"></div>
+                                <div class="jie-detail" id="jie-detail"></div>
+                            </div>
                         </div>
                         
-                        <div class="guidance-section">
-                            <h3>🎯 各事指引</h3>
-                            <div id="guidance"></div>
+                        <!-- 运势 -->
+                        <div class="fortune-section">
+                            <h3>运势详批</h3>
+                            <div class="fortune-grid" id="fortune-grid">
+                            </div>
                         </div>
                         
-                        <div class="advice-section">
-                            <h3>💡 心得建议</h3>
-                            <p id="advice"></p>
+                        <!-- 详细解读 -->
+                        <div class="detail-section">
+                            <h3>📖 详细解读</h3>
+                            <div id="detail-text"></div>
                         </div>
                     </div>
                     
@@ -139,12 +168,6 @@
             <p class="disclaimer">签诗为传统民俗文化，解签仅供参考娱乐，人生需自己把握</p>
             <p class="copyright-note">本站解签内容由AI生成，不构成任何决策建议</p>
         </footer>
-    </div>
-
-    <div class="floating-lotus">
-        <div class="petal"></div>
-        <div class="petal"></div>
-        <div class="petal"></div>
     </div>
 
     <script src="qian-data.js"></script>
