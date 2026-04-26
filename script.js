@@ -17,13 +17,16 @@ document.addEventListener('DOMContentLoaded', function() {
     let sticks = [];
     let isDrawing = false;
     let currentQian = null;
+    let payRemark = '';
+    let unlockTimer = null;
+    let countdown = 10; // 10秒倒计时
     
     // 生成付款备注
     function generatePayRemark() {
         const num = Math.floor(Math.random() * 9000) + 1000;
-        const remark = `古签${num}`;
-        document.getElementById('pay-remark').textContent = remark;
-        return remark;
+        payRemark = `古签${num}`;
+        document.getElementById('pay-remark').textContent = payRemark;
+        return payRemark;
     }
     
     // 初始化签筒
@@ -90,10 +93,30 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('guren-name').textContent = qian.guren;
         
+        // 签诗竖排显示
         const poemElement = document.getElementById('poem');
-        poemElement.innerHTML = qian.poem.map(line => `<span>${line}</span>`).join('');
+        poemElement.innerHTML = qian.poem.map(line => `<div class="poem-line">${line}</div>`).join('');
         
         generatePayRemark();
+        
+        // 重置解锁按钮状态
+        unlockBtn.disabled = true;
+        unlockBtn.innerHTML = '<span>⏳ 请先扫码付款...</span>';
+        countdown = 8;
+        
+        // 启动倒计时
+        if (unlockTimer) clearInterval(unlockTimer);
+        unlockTimer = setInterval(() => {
+            countdown--;
+            if (countdown > 0) {
+                unlockBtn.innerHTML = `<span>⏳ 请先扫码付款 (${countdown}秒)</span>`;
+            } else {
+                clearInterval(unlockTimer);
+                unlockBtn.disabled = false;
+                unlockBtn.innerHTML = '<span>✨ 我已付款，查看解签</span>';
+            }
+        }, 1000);
+        
         switchState('poem');
     }
     
@@ -108,8 +131,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('guren-name2').textContent = qian.guren;
         
+        // 签诗竖排显示
         const poemElement2 = document.getElementById('poem2');
-        poemElement2.innerHTML = qian.poem.map(line => `<span>${line}</span>`).join('');
+        poemElement2.innerHTML = qian.poem.map(line => `<div class="poem-line">${line}</div>`).join('');
         
         document.getElementById('jie-main').innerHTML = qian.jieMain;
         document.getElementById('jie-detail').textContent = qian.jieDetail;
@@ -127,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fortuneGrid.innerHTML = Object.entries(qian.fortune).map(([key, value]) => {
             const label = fortuneLabels[key] || key;
             const valueClass = value.includes('吉') || value.includes('成') || value.includes('安') ? 'good' : 
-                              value.includes('凶') || value.includes('阻') || value.includes('难') ? 'bad' : 'neutral';
+                              value.includes('凶') || value.includes('阻') || value.includes('难') || value.includes('空') || value.includes('杳') ? 'bad' : 'neutral';
             return `<div class="fortune-item"><span class="label">${label}</span><span class="value ${valueClass}">${value}</span></div>`;
         }).join('');
         
@@ -139,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function reset() {
         currentQian = null;
+        if (unlockTimer) clearInterval(unlockTimer);
         initSticks();
         switchState('initial');
     }
@@ -206,7 +231,11 @@ ${currentQian.poem.join('\n')}
             alert('请先抽签');
             return;
         }
-        showFullResult(currentQian);
+        
+        // 确认已付款
+        if (confirm('请确认您已完成付款。\n\n付款备注：' + payRemark + '\n\n确认已付款？')) {
+            showFullResult(currentQian);
+        }
     });
     
     drawAgainBtn.addEventListener('click', reset);
