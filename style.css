@@ -1,0 +1,513 @@
+/* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Serif SC', serif;
+    background: linear-gradient(135deg, #1a0a0a 0%, #2d1810 50%, #1a0a0a 100%);
+    min-height: 100vh;
+    color: #f5e6d3;
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(ellipse at 20% 20%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 头部样式 */
+header {
+    text-align: center;
+    padding: 30px 0;
+    border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+    margin-bottom: 30px;
+}
+
+.lotus-decoration {
+    font-size: 2rem;
+    animation: float 3s ease-in-out infinite;
+    opacity: 0.8;
+}
+
+h1 {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 3rem;
+    background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #d4af37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+    margin: 15px 0;
+    letter-spacing: 0.5rem;
+}
+
+.subtitle {
+    color: #c9a959;
+    font-size: 1.1rem;
+    letter-spacing: 0.3rem;
+}
+
+/* 主要内容区 */
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.state {
+    display: none;
+    width: 100%;
+    animation: fadeIn 0.5s ease;
+}
+
+.state.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 初始状态 */
+.blessing-box {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.blessing-text {
+    font-size: 1.3rem;
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+.instruction {
+    color: #c9a959;
+    font-size: 0.95rem;
+}
+
+/* 签筒样式 */
+.qian-tong {
+    width: 200px;
+    height: 300px;
+    margin: 0 auto 30px;
+    position: relative;
+    perspective: 1000px;
+}
+
+.stick-container {
+    width: 80px;
+    height: 250px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    background: linear-gradient(180deg, 
+        #8B4513 0%, 
+        #A0522D 20%, 
+        #8B4513 40%,
+        #A0522D 60%,
+        #8B4513 80%,
+        #654321 100%);
+    border-radius: 10px 10px 0 0;
+    padding: 10px 5px;
+    box-shadow: 
+        inset 0 0 20px rgba(0,0,0,0.5),
+        0 5px 20px rgba(0,0,0,0.3);
+    border: 2px solid #654321;
+}
+
+.qian-stick {
+    width: 6px;
+    background: linear-gradient(90deg, #f5deb3, #daa520, #f5deb3);
+    border-radius: 2px 2px 0 0;
+    margin: 0 1px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 -2px 5px rgba(212, 175, 55, 0.3);
+}
+
+.qian-stick:hover {
+    transform: translateY(-10px);
+}
+
+.qian-stick.jumping {
+    animation: jump 0.5s ease-out;
+}
+
+@keyframes jump {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-50px); }
+    100% { transform: translateY(-60px); }
+}
+
+.qian-base {
+    width: 100px;
+    height: 30px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, #654321, #3d2314);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* 抽签按钮 */
+.draw-button {
+    display: block;
+    width: 200px;
+    height: 60px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #8B0000 0%, #DC143C 50%, #8B0000 100%);
+    border: 3px solid #d4af37;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 5px 20px rgba(139, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.draw-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 25px rgba(139, 0, 0, 0.5),
+        0 0 30px rgba(212, 175, 55, 0.3);
+}
+
+.draw-button:active {
+    transform: translateY(0);
+}
+
+.btn-text {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 1.8rem;
+    color: #ffd700;
+    letter-spacing: 0.3rem;
+}
+
+/* 抽签动画 */
+.drawing-animation {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.spinning-stick {
+    width: 20px;
+    height: 200px;
+    background: linear-gradient(90deg, #f5deb3, #daa520, #f5deb3);
+    margin: 0 auto 30px;
+    border-radius: 5px;
+    animation: shake 0.1s linear infinite;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(-3px) rotate(-2deg); }
+    50% { transform: translateX(3px) rotate(2deg); }
+}
+
+.chanting {
+    color: #c9a959;
+    font-style: italic;
+    margin-top: 20px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* 结果展示 */
+.result-container {
+    background: linear-gradient(135deg, 
+        rgba(139, 69, 19, 0.2) 0%, 
+        rgba(139, 69, 19, 0.1) 50%, 
+        rgba(139, 69, 19, 0.2) 100%);
+    border: 2px solid rgba(212, 175, 55, 0.4);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.3),
+        inset 0 0 50px rgba(212, 175, 55, 0.05);
+}
+
+.qian-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.qian-number {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 2.5rem;
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+.qian-type {
+    display: inline-block;
+    padding: 5px 20px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.qian-type.superior {
+    background: linear-gradient(135deg, #ffd700, #ffaa00);
+    color: #1a0a0a;
+}
+
+.qian-type.good {
+    background: linear-gradient(135deg, #32cd32, #228b22);
+    color: #fff;
+}
+
+.qian-type.medium {
+    background: linear-gradient(135deg, #4169e1, #1e90ff);
+    color: #fff;
+}
+
+.qian-type.lower {
+    background: linear-gradient(135deg, #ff8c00, #ff6347);
+    color: #fff;
+}
+
+.qian-type.lowest {
+    background: linear-gradient(135deg, #696969, #2f4f4f);
+    color: #fff;
+}
+
+.qian-content section,
+.poem-section,
+.interpretation-section,
+.guidance-section,
+.advice-section {
+    margin-bottom: 20px;
+}
+
+.poem-section h3,
+.interpretation-section h3,
+.guidance-section h3,
+.advice-section h3 {
+    color: #d4af37;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 3px solid #d4af37;
+}
+
+.poem {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.poem p {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: #f5e6d3;
+    margin: 5px 0;
+}
+
+#interpretation {
+    line-height: 1.8;
+    color: #e6d5c3;
+}
+
+#guidance {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.guidance-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.guidance-item span:first-child {
+    color: #c9a959;
+}
+
+.guidance-item span:last-child {
+    color: #f5e6d3;
+}
+
+#advice {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+    padding: 15px;
+    border-radius: 10px;
+    line-height: 1.8;
+    color: #e6d5c3;
+    font-style: italic;
+    border-left: 3px solid #d4af37;
+}
+
+/* 按钮组 */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    justify-content: center;
+}
+
+.secondary-btn,
+.share-btn {
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Noto Serif SC', serif;
+}
+
+.secondary-btn {
+    background: transparent;
+    border: 2px solid #d4af37;
+    color: #d4af37;
+}
+
+.secondary-btn:hover {
+    background: rgba(212, 175, 55, 0.2);
+}
+
+.share-btn {
+    background: linear-gradient(135deg, #d4af37, #ffd700);
+    border: none;
+    color: #1a0a0a;
+    font-weight: 600;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+}
+
+/* 页脚 */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    margin-top: 30px;
+}
+
+footer p {
+    color: #c9a959;
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+.disclaimer {
+    font-size: 0.8rem !important;
+    opacity: 0.6;
+}
+
+/* 浮动莲花装饰 */
+.floating-lotus {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.petal {
+    width: 20px;
+    height: 30px;
+    background: rgba(255, 182, 193, 0.3);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: absolute;
+    animation: floatPetal 4s ease-in-out infinite;
+}
+
+.petal:nth-child(1) { transform: rotate(-30deg); animation-delay: 0s; }
+.petal:nth-child(2) { transform: rotate(0deg); animation-delay: 0.5s; }
+.petal:nth-child(3) { transform: rotate(30deg); animation-delay: 1s; }
+
+@keyframes floatPetal {
+    0%, 100% { transform: translateY(0) rotate(var(--rotate, 0deg)); }
+    50% { transform: translateY(-10px) rotate(var(--rotate, 0deg)); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* 响应式 */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2.2rem;
+        letter-spacing: 0.3rem;
+    }
+    
+    .qian-tong {
+        width: 160px;
+        height: 250px;
+    }
+    
+    .stick-container {
+        width: 60px;
+        height: 200px;
+    }
+    
+    .draw-button {
+        width: 160px;
+        height: 50px;
+    }
+    
+    .btn-text {
+        font-size: 1.4rem;
+    }
+    
+    .result-container {
+        padding: 20px;
+    }
+    
+    .qian-number {
+        font-size: 2rem;
+    }
+    
+    #guidance {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+}
