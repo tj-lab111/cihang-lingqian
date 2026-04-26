@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultState = document.getElementById('result-state');
     const drawBtn = document.getElementById('draw-btn');
     const unlockBtn = document.getElementById('unlock-btn');
+    const verifyBtn = document.getElementById('verify-btn');
+    const verifyInput = document.getElementById('verify-code');
+    const verifyError = document.getElementById('verify-error');
     const drawAgainBtn = document.getElementById('draw-again-btn');
     const drawAgainBtnEarly = document.getElementById('draw-again-btn-early');
     const shareBtn = document.getElementById('share-btn');
@@ -17,16 +20,15 @@ document.addEventListener('DOMContentLoaded', function() {
     let sticks = [];
     let isDrawing = false;
     let currentQian = null;
-    let payRemark = '';
-    let unlockTimer = null;
-    let countdown = 10; // 10秒倒计时
+    let payCode = ''; // 付款备注后4位
+    let isVerified = false;
     
-    // 生成付款备注
+    // 生成付款备注和后4位验证码
     function generatePayRemark() {
         const num = Math.floor(Math.random() * 9000) + 1000;
-        payRemark = `古签${num}`;
-        document.getElementById('pay-remark').textContent = payRemark;
-        return payRemark;
+        payCode = num.toString();
+        document.getElementById('pay-remark').textContent = `古签${num}`;
+        return num;
     }
     
     // 初始化签筒
@@ -84,6 +86,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 显示签诗（第一阶段）
     function showPoem(qian) {
+        // 重置验证状态
+        isVerified = false;
+        unlockBtn.disabled = true;
+        unlockBtn.classList.remove('verified');
+        unlockBtn.innerHTML = '<span>🔒 请先付款并验证</span>';
+        verifyInput.value = '';
+        verifyError.textContent = '';
+        
+        // 签号信息
         document.getElementById('qian-number').textContent = qian.number;
         document.getElementById('qian-gong').textContent = qian.gong + '宫';
         
@@ -97,31 +108,45 @@ document.addEventListener('DOMContentLoaded', function() {
         const poemElement = document.getElementById('poem');
         poemElement.innerHTML = qian.poem.map(line => `<div class="poem-line">${line}</div>`).join('');
         
+        // 解曰预览（只显示前两句）
+        document.getElementById('jie-preview').innerHTML = qian.jieMain;
+        
+        // 生成付款备注
         generatePayRemark();
-        
-        // 重置解锁按钮状态
-        unlockBtn.disabled = true;
-        unlockBtn.innerHTML = '<span>⏳ 请先扫码付款...</span>';
-        countdown = 8;
-        
-        // 启动倒计时
-        if (unlockTimer) clearInterval(unlockTimer);
-        unlockTimer = setInterval(() => {
-            countdown--;
-            if (countdown > 0) {
-                unlockBtn.innerHTML = `<span>⏳ 请先扫码付款 (${countdown}秒)</span>`;
-            } else {
-                clearInterval(unlockTimer);
-                unlockBtn.disabled = false;
-                unlockBtn.innerHTML = '<span>✨ 我已付款，查看解签</span>';
-            }
-        }, 1000);
         
         switchState('poem');
     }
     
+    // 验证付款
+    function verifyPayment() {
+        const inputCode = verifyInput.value.trim();
+        
+        if (inputCode.length !== 4 || !/^\d{4}$/.test(inputCode)) {
+            verifyError.textContent = '请输入4位数字';
+            return;
+        }
+        
+        if (inputCode === payCode) {
+            isVerified = true;
+            verifyError.textContent = '';
+            verifyError.style.color = '#228B22';
+            verifyError.textContent = '✓ 验证成功！';
+            unlockBtn.disabled = false;
+            unlockBtn.classList.add('verified');
+            unlockBtn.innerHTML = '<span>✨ 查看完整解签</span>';
+        } else {
+            verifyError.style.color = '#c41e3a';
+            verifyError.textContent = '验证码不正确，请检查付款备注';
+        }
+    }
+    
     // 显示详细解签（第二阶段）
     function showFullResult(qian) {
+        if (!isVerified) {
+            alert('请先完成付款验证');
+            return;
+        }
+        
         document.getElementById('qian-number2').textContent = qian.number;
         document.getElementById('qian-gong2').textContent = qian.gong + '宫';
         
@@ -163,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function reset() {
         currentQian = null;
-        if (unlockTimer) clearInterval(unlockTimer);
+        isVerified = false;
         initSticks();
         switchState('initial');
     }
@@ -226,16 +251,20 @@ ${currentQian.poem.join('\n')}
         }
     });
     
+    verifyBtn.addEventListener('click', verifyPayment);
+    
+    verifyInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            verifyPayment();
+        }
+    });
+    
     unlockBtn.addEventListener('click', function() {
-        if (!currentQian) {
-            alert('请先抽签');
+        if (!isVerified) {
+            alert('请先完成付款验证');
             return;
         }
-        
-        // 确认已付款
-        if (confirm('请确认您已完成付款。\n\n付款备注：' + payRemark + '\n\n确认已付款？')) {
-            showFullResult(currentQian);
-        }
+        showFullResult(currentQian);
     });
     
     drawAgainBtn.addEventListener('click', reset);
