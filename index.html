@@ -44,7 +44,7 @@
     44|                </div>
     45|            </div>
     46|
-    47|            <!-- 第一阶段：显示签诗（丰富传统版） -->
+    47|            <!-- 第一阶段：显示签诗 -->
     48|            <div id="poem-state" class="state">
     49|                <div class="qian-paper">
     50|                    <!-- 顶部装饰 -->
@@ -75,7 +75,7 @@
     75|                                <div class="fortune-row"><span class="f-label">山坟</span><span class="f-value">████</span></div>
     76|                            </div>
     77|                            <div class="unlock-overlay">
-    78|                                <span>🔒 付款解锁</span>
+    78|                                <span>🔒 点击解签</span>
     79|                            </div>
     80|                        </div>
     81|                        
@@ -106,105 +106,97 @@
    106|                                <p>█████████</p>
    107|                            </div>
    108|                            <div class="unlock-overlay">
-   109|                                <span>🔒 付款解锁</span>
+   109|                                <span>🔒 点击解签</span>
    110|                            </div>
    111|                        </div>
    112|                    </div>
    113|                    
-   114|                    <!-- 付款解锁区域 -->
-   115|                    <div class="payment-section">
-   116|                        <div class="payment-header">
-   117|                            <span>🔮 详尽解签</span>
-   118|                        </div>
-   119|                        <div class="payment-info-box">
-   120|                            <p class="info-text">解签服务需付费 <span class="price">¥1.00</span></p>
-   121|                            <p class="info-sub">付款后点击下方按钮查看完整解签</p>
-   122|                            <p class="info-sub">收款码/付款方式请关注公众号获取</p>
-   123|                        </div>
-   124|                        <button id="unlock-btn" class="unlock-btn verified">
-   125|                            <span>✨ 我已付款，查看解签</span>
-   126|                        </button>
-   127|                    </div>
-   128|                    
-   129|                    <!-- 底部装饰 -->
-   130|                    <div class="paper-footer">
-   131|                        <div class="footer-pattern"></div>
-   132|                    </div>
-   133|                </div>
-   134|                
-   135|                <div class="action-buttons">
-   136|                    <button id="draw-again-btn-early" class="secondary-btn">重新抽签</button>
-   137|                </div>
-   138|            </div>
-   139|
-   140|            <!-- 第二阶段：显示详细解签 -->
-   141|            <div id="result-state" class="state">
-   142|                <div class="qian-paper unlocked">
-   143|                    <!-- 顶部装饰 -->
-   144|                    <div class="paper-header">
-   145|                        <div class="header-pattern"></div>
-   146|                    </div>
-   147|                    
-   148|                    <!-- 签纸主体 -->
-   149|                    <div class="paper-body">
-   150|                        <!-- 左侧运势（清晰） -->
-   151|                        <div class="fortune-column">
-   152|                            <div class="fortune-title">运势</div>
-   153|                            <div class="fortune-list" id="fortune-list"></div>
-   154|                        </div>
-   155|                        
-   156|                        <!-- 中间签诗 -->
-   157|                        <div class="poem-column">
-   158|                            <!-- 签头信息 -->
-   159|                            <div class="qian-header-info">
-   160|                                <div class="qian-number" id="qian-number2">第四十六签</div>
-   161|                                <div class="qian-gong" id="qian-gong2">戌宫</div>
-   162|                                <div class="qian-type" id="qian-type2">中签</div>
-   163|                                <div class="guren-tag">古人：<span id="guren-name2">渭水钓鱼</span></div>
-   164|                            </div>
-   165|                            
-   166|                            <!-- 签诗 -->
-   167|                            <div class="poem-box">
-   168|                                <div class="poem-label">诗曰</div>
-   169|                                <div class="poem-vertical" id="poem2"></div>
-   170|                            </div>
-   171|                        </div>
-   172|                        
-   173|                        <!-- 右侧解签（清晰） -->
-   174|                        <div class="jie-column">
-   175|                            <div class="jie-title">解曰</div>
-   176|                            <div class="jie-content" id="jie-content"></div>
-   177|                        </div>
-   178|                    </div>
-   179|                    
-   180|                    <!-- 详细解读 -->
-   181|                    <div class="detail-section">
-   182|                        <h3>📖 详细解读</h3>
-   183|                        <div id="detail-text"></div>
-   184|                    </div>
-   185|                    
-   186|                    <!-- 底部装饰 -->
-   187|                    <div class="paper-footer">
-   188|                        <div class="footer-pattern"></div>
-   189|                    </div>
-   190|                </div>
-   191|                
-   192|                <div class="action-buttons">
-   193|                    <button id="draw-again-btn" class="secondary-btn">再求一签</button>
-   194|                    <button id="share-btn" class="share-btn">分享签诗</button>
-   195|                </div>
-   196|            </div>
-   197|        </main>
-   198|
-   199|        <footer>
-   200|            <p>🙏 诚心祈愿，心诚则灵 🙏</p>
-   201|            <p class="disclaimer">签诗为传统民俗文化，解签仅供参考娱乐，人生需自己把握</p>
-   202|            <p class="copyright-note">本站解签内容由AI生成，不构成任何决策建议</p>
-   203|        </footer>
-   204|    </div>
-   205|
-   206|    <script src="qian-data.js"></script>
-   207|    <script src="script.js"></script>
-   208|</body>
-   209|</html>
-   210|
+   114|                    <!-- 解签按钮 -->
+   115|                    <div class="unlock-section">
+   116|                        <button id="unlock-btn" class="unlock-btn">
+   117|                            <span>✨ 查看完整解签</span>
+   118|                        </button>
+   119|                    </div>
+   120|                    
+   121|                    <!-- 底部装饰 -->
+   122|                    <div class="paper-footer">
+   123|                        <div class="footer-pattern"></div>
+   124|                    </div>
+   125|                </div>
+   126|                
+   127|                <div class="action-buttons">
+   128|                    <button id="draw-again-btn-early" class="secondary-btn">重新抽签</button>
+   129|                </div>
+   130|            </div>
+   131|
+   132|            <!-- 第二阶段：显示详细解签 -->
+   133|            <div id="result-state" class="state">
+   134|                <div class="qian-paper unlocked">
+   135|                    <!-- 顶部装饰 -->
+   136|                    <div class="paper-header">
+   137|                        <div class="header-pattern"></div>
+   138|                    </div>
+   139|                    
+   140|                    <!-- 签纸主体 -->
+   141|                    <div class="paper-body">
+   142|                        <!-- 左侧运势（清晰） -->
+   143|                        <div class="fortune-column">
+   144|                            <div class="fortune-title">运势</div>
+   145|                            <div class="fortune-list" id="fortune-list"></div>
+   146|                        </div>
+   147|                        
+   148|                        <!-- 中间签诗 -->
+   149|                        <div class="poem-column">
+   150|                            <!-- 签头信息 -->
+   151|                            <div class="qian-header-info">
+   152|                                <div class="qian-number" id="qian-number2">第四十六签</div>
+   153|                                <div class="qian-gong" id="qian-gong2">戌宫</div>
+   154|                                <div class="qian-type" id="qian-type2">中签</div>
+   155|                                <div class="guren-tag">古人：<span id="guren-name2">渭水钓鱼</span></div>
+   156|                            </div>
+   157|                            
+   158|                            <!-- 签诗 -->
+   159|                            <div class="poem-box">
+   160|                                <div class="poem-label">诗曰</div>
+   161|                                <div class="poem-vertical" id="poem2"></div>
+   162|                            </div>
+   163|                        </div>
+   164|                        
+   165|                        <!-- 右侧解签（清晰） -->
+   166|                        <div class="jie-column">
+   167|                            <div class="jie-title">解曰</div>
+   168|                            <div class="jie-content" id="jie-content"></div>
+   169|                        </div>
+   170|                    </div>
+   171|                    
+   172|                    <!-- 详细解读 -->
+   173|                    <div class="detail-section">
+   174|                        <h3>📖 详细解读</h3>
+   175|                        <div id="detail-text"></div>
+   176|                    </div>
+   177|                    
+   178|                    <!-- 底部装饰 -->
+   179|                    <div class="paper-footer">
+   180|                        <div class="footer-pattern"></div>
+   181|                    </div>
+   182|                </div>
+   183|                
+   184|                <div class="action-buttons">
+   185|                    <button id="draw-again-btn" class="secondary-btn">再求一签</button>
+   186|                    <button id="share-btn" class="share-btn">分享签诗</button>
+   187|                </div>
+   188|            </div>
+   189|        </main>
+   190|
+   191|        <footer>
+   192|            <p>🙏 诚心祈愿，心诚则灵 🙏</p>
+   193|            <p class="disclaimer">签诗为传统民俗文化，解签仅供参考娱乐，人生需自己把握</p>
+   194|            <p class="copyright-note">本站解签内容由AI生成，不构成任何决策建议</p>
+   195|        </footer>
+   196|    </div>
+   197|
+   198|    <script src="qian-data.js"></script>
+   199|    <script src="script.js"></script>
+   200|</body>
+   201|</html>
+   202|
