@@ -18,6 +18,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let isDrawing = false;
     let currentQian = null;
     
+    // 生成付款备注
+    function generatePayRemark() {
+        const num = Math.floor(Math.random() * 9000) + 1000;
+        const remark = `古签${num}`;
+        document.getElementById('pay-remark').textContent = remark;
+        return remark;
+    }
+    
     // 初始化签筒
     function initSticks() {
         stickContainer.innerHTML = '';
@@ -60,12 +68,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return new Promise((resolve) => {
             switchState('drawing');
             
-            // 随机选择一根签跳动
             const selectedIndex = Math.floor(Math.random() * sticks.length);
             const selectedStick = sticks[selectedIndex];
             selectedStick.classList.add('jumping');
             
-            // 2秒后显示签诗
             setTimeout(() => {
                 currentQian = getRandomQian();
                 resolve();
@@ -75,67 +81,81 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 显示签诗（第一阶段）
     function showPoem(qian) {
-        // 签号
         document.getElementById('qian-number').textContent = qian.number;
+        document.getElementById('qian-gong').textContent = qian.gong + '宫';
         
-        // 签类型
         const typeElement = document.getElementById('qian-type');
         typeElement.textContent = qian.typeName;
         typeElement.className = 'qian-type ' + qian.type;
         
-        // 签文
-        const poemElement = document.getElementById('poem');
-        poemElement.innerHTML = qian.poem.map(line => `<p>${line}</p>`).join('');
+        document.getElementById('guren-name').textContent = qian.guren;
         
+        const poemElement = document.getElementById('poem');
+        poemElement.innerHTML = qian.poem.map(line => `<span>${line}</span>`).join('');
+        
+        generatePayRemark();
         switchState('poem');
     }
     
     // 显示详细解签（第二阶段）
     function showFullResult(qian) {
-        // 签号和类型
         document.getElementById('qian-number2').textContent = qian.number;
+        document.getElementById('qian-gong2').textContent = qian.gong + '宫';
+        
         const typeElement2 = document.getElementById('qian-type2');
         typeElement2.textContent = qian.typeName;
         typeElement2.className = 'qian-type ' + qian.type;
         
-        // 签文（简化版）
+        document.getElementById('guren-name2').textContent = qian.guren;
+        
         const poemElement2 = document.getElementById('poem2');
-        poemElement2.innerHTML = qian.poem.map(line => `<p>${line}</p>`).join('');
+        poemElement2.innerHTML = qian.poem.map(line => `<span>${line}</span>`).join('');
         
-        // 签解
-        document.getElementById('interpretation').textContent = qian.interpretation;
+        document.getElementById('jie-main').innerHTML = qian.jieMain;
+        document.getElementById('jie-detail').textContent = qian.jieDetail;
         
-        // 各事指引
-        const guidanceElement = document.getElementById('guidance');
-        guidanceElement.innerHTML = Object.entries(qian.guidance).map(([key, value]) => 
-            `<div class="guidance-item"><span>${key}</span><span>${value}</span></div>`
-        ).join('');
+        // 运势表格
+        const fortuneGrid = document.getElementById('fortune-grid');
+        const fortuneLabels = {
+            home: '家宅', self: '自身', wealth: '求财', trade: '交易',
+            marriage: '婚姻', pregnancy: '六甲', traveler: '行人',
+            farming: '田蚕', livestock: '六畜', finding: '寻人',
+            lawsuit: '公讼', moving: '移徙', lost: '失物',
+            illness: '疾病', grave: '山坟'
+        };
         
-        // 建议
-        document.getElementById('advice').textContent = qian.advice;
+        fortuneGrid.innerHTML = Object.entries(qian.fortune).map(([key, value]) => {
+            const label = fortuneLabels[key] || key;
+            const valueClass = value.includes('吉') || value.includes('成') || value.includes('安') ? 'good' : 
+                              value.includes('凶') || value.includes('阻') || value.includes('难') ? 'bad' : 'neutral';
+            return `<div class="fortune-item"><span class="label">${label}</span><span class="value ${valueClass}">${value}</span></div>`;
+        }).join('');
+        
+        // 详细解读
+        document.getElementById('detail-text').innerHTML = qian.detail.map(p => `<p>${p}</p>`).join('');
         
         switchState('result');
     }
     
-    // 重置
     function reset() {
         currentQian = null;
         initSticks();
         switchState('initial');
     }
     
-    // 分享功能
     function shareQian() {
         if (!currentQian) return;
         
         const shareText = `
-📜 古签解语 · ${currentQian.number} 📜
-【${currentQian.typeName}】
+📜 古签解语 · ${currentQian.number}
+【${currentQian.typeName}·${currentQian.gong}宫】
 
-签文：
+古人典故：${currentQian.guren}
+
+签诗：
 ${currentQian.poem.join('\n')}
 
-🙏 愿签诗指引方向 🙏
+🙏 愿签诗指引方向
         `.trim();
         
         if (navigator.share) {
@@ -143,9 +163,7 @@ ${currentQian.poem.join('\n')}
                 title: '古签解语',
                 text: shareText,
                 url: window.location.href
-            }).catch(err => {
-                copyToClipboard(shareText);
-            });
+            }).catch(() => copyToClipboard(shareText));
         } else {
             copyToClipboard(shareText);
         }
@@ -154,7 +172,7 @@ ${currentQian.poem.join('\n')}
     function copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(() => {
             alert('签文已复制到剪贴板！');
-        }).catch(err => {
+        }).catch(() => {
             const textarea = document.createElement('textarea');
             textarea.value = text;
             document.body.appendChild(textarea);
@@ -167,11 +185,9 @@ ${currentQian.poem.join('\n')}
     
     // === 事件绑定 ===
     
-    // 摇签按钮
     drawBtn.addEventListener('click', async function() {
         if (isDrawing) return;
         isDrawing = true;
-        
         drawBtn.disabled = true;
         drawBtn.style.opacity = '0.5';
         
@@ -185,24 +201,19 @@ ${currentQian.poem.join('\n')}
         }
     });
     
-    // 解锁解签按钮
     unlockBtn.addEventListener('click', function() {
         if (!currentQian) {
             alert('请先抽签');
             return;
         }
-        // 直接显示解签（实际项目中可以验证付款）
         showFullResult(currentQian);
     });
     
-    // 重新抽签按钮
     drawAgainBtn.addEventListener('click', reset);
     drawAgainBtnEarly.addEventListener('click', reset);
-    
-    // 分享按钮
     shareBtn.addEventListener('click', shareQian);
     
-    // 签筒交互效果
+    // 签筒交互
     stickContainer.addEventListener('mouseover', function(e) {
         if (e.target.classList.contains('qian-stick')) {
             e.target.style.transform = 'translateY(-10px)';
@@ -218,7 +229,6 @@ ${currentQian.poem.join('\n')}
     // 初始化
     initSticks();
     
-    // 页面加载动画
     document.body.style.opacity = '0';
     setTimeout(() => {
         document.body.style.transition = 'opacity 0.5s ease';
@@ -238,27 +248,24 @@ ${currentQian.poem.join('\n')}
     
     // 触摸支持
     let touchStartY = 0;
-    
     document.addEventListener('touchstart', function(e) {
         touchStartY = e.touches[0].clientY;
     });
     
     document.addEventListener('touchend', function(e) {
-        const touchEndY = e.changedTouches[0].clientY;
-        const diff = touchStartY - touchEndY;
-        
+        const diff = touchStartY - e.changedTouches[0].clientY;
         if (diff > 50 && initialState.classList.contains('active')) {
             drawBtn.click();
         }
     });
     
-    // 背景粒子动画
+    // 背景粒子
     function createParticle() {
         const particle = document.createElement('div');
         particle.style.cssText = `
             position: fixed;
-            width: 5px;
-            height: 5px;
+            width: 4px;
+            height: 4px;
             background: rgba(212, 175, 55, 0.3);
             border-radius: 50%;
             pointer-events: none;
@@ -268,38 +275,21 @@ ${currentQian.poem.join('\n')}
             animation: floatUp ${5 + Math.random() * 10}s linear forwards;
         `;
         document.body.appendChild(particle);
-        
-        particle.addEventListener('animationend', () => {
-            particle.remove();
-        });
+        particle.addEventListener('animationend', () => particle.remove());
     }
     
-    // 添加浮动动画样式
     const style = document.createElement('style');
     style.textContent = `
         @keyframes floatUp {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(720deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
     `;
     document.head.appendChild(style);
     
-    // 定期创建粒子
-    setInterval(createParticle, 1000);
+    setInterval(createParticle, 1200);
     
-    // 控制台彩蛋
     console.log('%c📜 古签解语 📜', 'font-size: 24px; color: #d4af37; font-weight: bold;');
-    console.log('%c传统签诗 · 心诚则灵', 'font-size: 14px; color: #c9a959;');
 });
