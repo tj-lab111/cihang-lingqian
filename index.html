@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>慈航灵签 - 观音灵签在线抽签</title>
+    <title>古签解语 - 传统签诗在线抽签</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -11,8 +11,8 @@
     <div class="container">
         <header>
             <div class="lotus-decoration">🪷</div>
-            <h1>慈 航 灵 签</h1>
-            <p class="subtitle">观音大士 · 有求必应</p>
+            <h1>古 签 解 语</h1>
+            <p class="subtitle">传统签诗 · 心诚则灵</p>
             <div class="lotus-decoration">🪷</div>
         </header>
 
@@ -20,8 +20,8 @@
             <!-- 初始状态：抽签按钮 -->
             <div id="initial-state" class="state active">
                 <div class="blessing-box">
-                    <p class="blessing-text">南无大慈大悲观世音菩萨</p>
-                    <p class="instruction">诚心默念所求之事，点击签筒抽签</p>
+                    <p class="blessing-text">诚心默念所求之事</p>
+                    <p class="instruction">静心凝神，点击签筒抽签</p>
                 </div>
                 
                 <div class="qian-tong" id="qian-tong">
@@ -41,13 +41,13 @@
                 <div class="drawing-animation">
                     <div class="spinning-stick"></div>
                     <p>签筒摇动中...</p>
-                    <p class="chanting">南无观世音菩萨摩诃萨...</p>
+                    <p class="chanting">静候签诗显现...</p>
                 </div>
             </div>
 
-            <!-- 结果展示状态 -->
-            <div id="result-state" class="state">
-                <div class="result-container">
+            <!-- 第一阶段：显示签诗 -->
+            <div id="poem-state" class="state">
+                <div class="result-container poem-only">
                     <div class="qian-header">
                         <div class="qian-number" id="qian-number">第壹签</div>
                         <div class="qian-type" id="qian-type">上上签</div>
@@ -55,31 +55,80 @@
                     
                     <div class="qian-content">
                         <div class="poem-section">
-                            <h3>签 文</h3>
+                            <h3>📜 签 文</h3>
                             <div class="poem" id="poem">
                                 <!-- 签文会动态填充 -->
                             </div>
                         </div>
                         
+                        <div class="poem-note">
+                            <p>签诗为传统民俗文化，流传已久</p>
+                        </div>
+                    </div>
+                    
+                    <div class="unlock-section">
+                        <h3>🔮 解签指引</h3>
+                        <p class="unlock-desc">扫码支付 <span class="price">¥0.1</span> 获取详细解签</p>
+                        
+                        <div class="payment-box">
+                            <div class="qr-placeholder" id="qr-code">
+                                <!-- 二维码图片位置 -->
+                                <img src="qr-code.png" alt="收款二维码" class="qr-image" onerror="this.style.display='none'; document.getElementById('qr-fallback').style.display='block';">
+                                <div id="qr-fallback" class="qr-fallback" style="display:none;">
+                                    <p>📱 请添加微信获取解签</p>
+                                    <p class="wechat-id">ID: your-wechat-id</p>
+                                </div>
+                            </div>
+                            <p class="payment-hint">支付宝/微信扫码</p>
+                        </div>
+                        
+                        <button id="unlock-btn" class="unlock-button">
+                            <span>✨ 我已付款，查看解签</span>
+                        </button>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="draw-again-btn-early" class="secondary-btn">重新抽签</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二阶段：显示详细解签 -->
+            <div id="result-state" class="state">
+                <div class="result-container">
+                    <div class="qian-header">
+                        <div class="qian-number" id="qian-number2">第壹签</div>
+                        <div class="qian-type" id="qian-type2">上上签</div>
+                    </div>
+                    
+                    <div class="qian-content">
+                        <div class="poem-section compact">
+                            <h3>📜 签文</h3>
+                            <div class="poem" id="poem2">
+                                <!-- 签文会动态填充 -->
+                            </div>
+                        </div>
+                        
                         <div class="interpretation-section">
-                            <h3>解 曰</h3>
+                            <h3>📖 签解</h3>
                             <p id="interpretation"></p>
+                            <p class="ai-note">（此解签内容由AI生成，仅供参考）</p>
                         </div>
                         
                         <div class="guidance-section">
-                            <h3>仙 机</h3>
+                            <h3>🎯 各事指引</h3>
                             <div id="guidance"></div>
                         </div>
                         
                         <div class="advice-section">
-                            <h3>观音指引</h3>
+                            <h3>💡 心得建议</h3>
                             <p id="advice"></p>
                         </div>
                     </div>
                     
                     <div class="action-buttons">
                         <button id="draw-again-btn" class="secondary-btn">再求一签</button>
-                        <button id="share-btn" class="share-btn">分享灵签</button>
+                        <button id="share-btn" class="share-btn">分享签诗</button>
                     </div>
                 </div>
             </div>
@@ -87,7 +136,8 @@
 
         <footer>
             <p>🙏 诚心祈愿，心诚则灵 🙏</p>
-            <p class="disclaimer">仅供娱乐参考，人生需自己把握</p>
+            <p class="disclaimer">签诗为传统民俗文化，解签仅供参考娱乐，人生需自己把握</p>
+            <p class="copyright-note">本站解签内容由AI生成，不构成任何决策建议</p>
         </footer>
     </div>
 
