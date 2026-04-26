@@ -44,9 +44,12 @@
                 </div>
             </div>
 
-            <!-- 第一阶段：显示签诗 -->
+            <!-- 第一阶段：显示签诗（丰富版） -->
             <div id="poem-state" class="state">
-                <div class="result-container poem-only">
+                <div class="result-container poem-paper">
+                    <!-- 签纸装饰边框 -->
+                    <div class="paper-border"></div>
+                    
                     <!-- 签头 -->
                     <div class="qian-header">
                         <div class="qian-title">有求必应</div>
@@ -68,7 +71,23 @@
                     <!-- 签诗 -->
                     <div class="poem-section">
                         <h3>诗 曰</h3>
-                        <div class="poem-vertical" id="poem">
+                        <div class="poem-vertical" id="poem"></div>
+                    </div>
+                    
+                    <!-- 解曰概要（免费部分） -->
+                    <div class="jie-preview">
+                        <h4>解曰</h4>
+                        <div class="jie-preview-content" id="jie-preview"></div>
+                    </div>
+                    
+                    <!-- 运势概览（模糊） -->
+                    <div class="fortune-preview blurred">
+                        <h4>运势批语</h4>
+                        <div class="fortune-blur-text">
+                            家宅 █████<br>
+                            自身 ████<br>
+                            求财 ██████<br>
+                            <span class="unlock-hint">付款后可见完整运势</span>
                         </div>
                     </div>
                     
@@ -78,22 +97,33 @@
                     
                     <!-- 付费解锁 -->
                     <div class="unlock-section">
-                        <h3>🔮 解签指引</h3>
-                        <p class="unlock-desc">扫码支付 <span class="price">¥0.1</span> 获取详细解签</p>
+                        <h3>🔮 详尽解签</h3>
+                        <p class="unlock-desc">扫码支付 <span class="price">¥0.1</span> 获取完整解签</p>
+                        <p class="unlock-features">包含：典故详解 · 运势详批 · 行事指引 · 注意事项</p>
                         
                         <div class="payment-box">
                             <div class="qr-placeholder" id="qr-code">
-                                <img src="qr-code.png" alt="收款二维码" class="qr-image" onerror="this.style.display='none'; document.getElementById('qr-fallback').style.display='block';">
+                                <img src="qr-code.png" alt="收款二维码" class="qr-image" onerror="this.style.display='none'; document.getElementById('qr-fallback').style.display='flex';">
                                 <div id="qr-fallback" class="qr-fallback" style="display:none;">
                                     <p>📱 请联系解签</p>
                                 </div>
                             </div>
                             <p class="payment-hint">支付宝扫码支付 ¥0.1</p>
-                            <p class="payment-remark">💡 付款备注请填：<span id="pay-remark">古签</span></p>
+                            <p class="payment-remark">💡 付款备注请填：<span id="pay-remark">古签1234</span></p>
                         </div>
                         
-                        <button id="unlock-btn" class="unlock-button">
-                            <span>✨ 我已付款，查看解签</span>
+                        <!-- 验证输入 -->
+                        <div class="verify-section">
+                            <p class="verify-label">请输入付款备注后4位数字验证：</p>
+                            <div class="verify-input-group">
+                                <input type="text" id="verify-code" class="verify-input" placeholder="输入4位数字" maxlength="4" pattern="[0-9]*">
+                                <button id="verify-btn" class="verify-btn">验证</button>
+                            </div>
+                            <p class="verify-error" id="verify-error"></p>
+                        </div>
+                        
+                        <button id="unlock-btn" class="unlock-button" disabled>
+                            <span>🔒 请先付款并验证</span>
                         </button>
                     </div>
                     
@@ -128,8 +158,7 @@
                         <!-- 签诗 -->
                         <div class="poem-section compact">
                             <h3>诗 曰</h3>
-                            <div class="poem-vertical small" id="poem2">
-                            </div>
+                            <div class="poem-vertical small" id="poem2"></div>
                         </div>
                         
                         <!-- 解曰 -->
@@ -144,8 +173,7 @@
                         <!-- 运势 -->
                         <div class="fortune-section">
                             <h3>运势详批</h3>
-                            <div class="fortune-grid" id="fortune-grid">
-                            </div>
+                            <div class="fortune-grid" id="fortune-grid"></div>
                         </div>
                         
                         <!-- 详细解读 -->
