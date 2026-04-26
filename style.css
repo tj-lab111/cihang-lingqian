@@ -334,19 +334,24 @@ header h1 {
 .poem-vertical {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    min-height: 180px;
-    writing-mode: vertical-rl;
-    font-size: 1.6rem;
-    line-height: 2.5;
-    color: var(--ink-color);
-    font-family: 'Ma Shan Zheng', cursive;
+    align-items: flex-start;
+    gap: 25px;
+    min-height: 200px;
+    padding: 15px;
 }
 
-.poem-vertical.small {
+.poem-line {
+    writing-mode: vertical-rl;
+    font-size: 1.6rem;
+    line-height: 2.2;
+    color: var(--ink-color);
+    font-family: 'Ma Shan Zheng', cursive;
+    height: 180px;
+}
+
+.poem-vertical.small .poem-line {
     font-size: 1.3rem;
-    min-height: 140px;
-    gap: 20px;
+    height: 140px;
 }
 
 .poem-note {
@@ -647,13 +652,18 @@ footer p {
     }
     
     .poem-vertical {
-        font-size: 1.3rem;
-        gap: 20px;
-        min-height: 150px;
+        gap: 18px;
+        min-height: 160px;
     }
     
-    .poem-vertical.small {
+    .poem-line {
+        font-size: 1.2rem;
+        height: 150px;
+    }
+    
+    .poem-vertical.small .poem-line {
         font-size: 1.1rem;
+        height: 120px;
     }
     
     .fortune-grid {
