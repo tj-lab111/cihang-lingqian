@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>慈航灵签 - 观音灵签在线抽签</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lotus-decoration">🪷</div>
+            <h1>慈 航 灵 签</h1>
+            <p class="subtitle">观音大士 · 有求必应</p>
+            <div class="lotus-decoration">🪷</div>
+        </header>
+
+        <main id="main-content">
+            <!-- 初始状态：抽签按钮 -->
+            <div id="initial-state" class="state active">
+                <div class="blessing-box">
+                    <p class="blessing-text">南无大慈大悲观世音菩萨</p>
+                    <p class="instruction">诚心默念所求之事，点击签筒抽签</p>
+                </div>
+                
+                <div class="qian-tong" id="qian-tong">
+                    <div class="stick-container" id="stick-container">
+                        <!-- 签会动态生成 -->
+                    </div>
+                    <div class="qian-base"></div>
+                </div>
+                
+                <button id="draw-btn" class="draw-button">
+                    <span class="btn-text">摇 签</span>
+                </button>
+            </div>
+
+            <!-- 抽签动画状态 -->
+            <div id="drawing-state" class="state">
+                <div class="drawing-animation">
+                    <div class="spinning-stick"></div>
+                    <p>签筒摇动中...</p>
+                    <p class="chanting">南无观世音菩萨摩诃萨...</p>
+                </div>
+            </div>
+
+            <!-- 结果展示状态 -->
+            <div id="result-state" class="state">
+                <div class="result-container">
+                    <div class="qian-header">
+                        <div class="qian-number" id="qian-number">第壹签</div>
+                        <div class="qian-type" id="qian-type">上上签</div>
+                    </div>
+                    
+                    <div class="qian-content">
+                        <div class="poem-section">
+                            <h3>签 文</h3>
+                            <div class="poem" id="poem">
+                                <!-- 签文会动态填充 -->
+                            </div>
+                        </div>
+                        
+                        <div class="interpretation-section">
+                            <h3>解 曰</h3>
+                            <p id="interpretation"></p>
+                        </div>
+                        
+                        <div class="guidance-section">
+                            <h3>仙 机</h3>
+                            <div id="guidance"></div>
+                        </div>
+                        
+                        <div class="advice-section">
+                            <h3>观音指引</h3>
+                            <p id="advice"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="draw-again-btn" class="secondary-btn">再求一签</button>
+                        <button id="share-btn" class="share-btn">分享灵签</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>🙏 诚心祈愿，心诚则灵 🙏</p>
+            <p class="disclaimer">仅供娱乐参考，人生需自己把握</p>
+        </footer>
+    </div>
+
+    <div class="floating-lotus">
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+    </div>
+
+    <script src="qian-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
