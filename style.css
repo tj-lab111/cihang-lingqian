@@ -1,1 +1,613 @@
-File unchanged since last read. The content from the earlier read_file result in this conversation is still current — refer to that instead of re-reading.
+/* 古签解语 - 传统签文纸样式 */
+
+:root {
+    --primary-gold: #d4af37;
+    --secondary-gold: #c9a959;
+    --dark-red: #8b0000;
+    --cream: #fdf5e6;
+    --deep-brown: #3d2914;
+    --light-gold: rgba(212, 175, 55, 0.1);
+    --paper-bg: #f8f4e8;
+    --ink-color: #2c1810;
+    --border-color: #c9a959;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Serif SC', serif;
+    background: linear-gradient(135deg, #1a0a0a 0%, #2d1810 50%, #1a0a0a 100%);
+    min-height: 100vh;
+    color: var(--cream);
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 30px 0 20px;
+    position: relative;
+}
+
+header h1 {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 3rem;
+    color: var(--primary-gold);
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    letter-spacing: 0.3em;
+    margin: 10px 0;
+}
+
+.subtitle {
+    color: var(--secondary-gold);
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+}
+
+.lotus-decoration {
+    font-size: 1.5rem;
+    opacity: 0.8;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* States */
+.state {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.state.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Initial State */
+.blessing-box {
+    text-align: center;
+    padding: 25px;
+    background: var(--light-gold);
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px solid var(--primary-gold);
+}
+
+.blessing-text {
+    font-size: 1.3rem;
+    color: var(--primary-gold);
+    margin-bottom: 8px;
+}
+
+.instruction {
+    color: var(--cream);
+    opacity: 0.8;
+    font-size: 0.95rem;
+}
+
+/* Qian Tong */
+.qian-tong {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 25px 0;
+    position: relative;
+}
+
+.stick-container {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    padding: 10px;
+    transform: perspective(500px) rotateX(10deg);
+}
+
+.qian-stick {
+    width: 7px;
+    background: linear-gradient(to bottom, #8b4513, #654321);
+    border-radius: 2px 2px 0 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.qian-stick:hover {
+    transform: translateY(-12px);
+    background: linear-gradient(to bottom, var(--primary-gold), var(--secondary-gold));
+}
+
+.qian-stick.jumping {
+    animation: jump 0.3s ease infinite;
+}
+
+@keyframes jump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-25px); }
+}
+
+.qian-base {
+    width: 180px;
+    height: 25px;
+    background: linear-gradient(to bottom, #5c3d2e, #3d2914);
+    border-radius: 8px;
+    margin-top: -4px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Draw Button */
+.draw-button {
+    display: block;
+    width: 180px;
+    margin: 25px auto;
+    padding: 12px 35px;
+    font-size: 1.4rem;
+    font-family: 'Ma Shan Zheng', cursive;
+    background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+    color: var(--deep-brown);
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+}
+
+.draw-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
+}
+
+/* Drawing Animation */
+.drawing-animation {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.spinning-stick {
+    width: 10px;
+    height: 80px;
+    background: linear-gradient(to bottom, var(--primary-gold), var(--secondary-gold));
+    margin: 0 auto 20px;
+    border-radius: 5px;
+    animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg) translateY(0); }
+    25% { transform: rotate(90deg) translateY(-15px); }
+    50% { transform: rotate(180deg) translateY(0); }
+    75% { transform: rotate(270deg) translateY(15px); }
+    100% { transform: rotate(360deg) translateY(0); }
+}
+
+.chanting {
+    color: var(--primary-gold);
+    font-size: 1.1rem;
+    margin-top: 15px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* ===== 签文纸样式 ===== */
+.qian-paper {
+    background: var(--paper-bg);
+    border-radius: 4px;
+    margin: 20px 0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    color: var(--ink-color);
+    position: relative;
+    overflow: hidden;
+    border: 3px solid var(--border-color);
+}
+
+/* 顶部装饰 */
+.paper-header {
+    background: linear-gradient(90deg, #4a7c59, #5a8c69, #4a7c59);
+    padding: 8px;
+    position: relative;
+}
+
+.header-pattern {
+    height: 20px;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 10px,
+        rgba(255,255,255,0.1) 10px,
+        rgba(255,255,255,0.1) 20px
+    );
+}
+
+/* 底部装饰 */
+.paper-footer {
+    background: linear-gradient(90deg, #4a7c59, #5a8c69, #4a7c59);
+    padding: 8px;
+}
+
+.footer-pattern {
+    height: 20px;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 10px,
+        rgba(255,255,255,0.1) 10px,
+        rgba(255,255,255,0.1) 20px
+    );
+}
+
+/* 三栏布局 */
+.paper-body {
+    display: grid;
+    grid-template-columns: 100px 1fr 140px;
+    min-height: 420px;
+    position: relative;
+}
+
+/* 左侧运势栏 */
+.fortune-column {
+    background: rgba(139, 0, 0, 0.03);
+    border-right: 1px solid var(--border-color);
+    padding: 15px 8px;
+    position: relative;
+}
+
+.fortune-title {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 1.3rem;
+    color: var(--dark-red);
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 10px;
+}
+
+.fortune-list {
+    font-size: 0.85rem;
+}
+
+.fortune-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 2px;
+    border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+
+.f-label {
+    color: #666;
+}
+
+.f-value {
+    color: var(--dark-red);
+    font-weight: 500;
+}
+
+.f-value.good { color: #228B22; }
+.f-value.bad { color: #8B0000; }
+.f-value.neutral { color: #666; }
+
+/* 模糊效果 */
+.fortune-column.locked .fortune-list.blurred,
+.jie-column.locked .jie-content.blurred {
+    filter: blur(4px);
+    user-select: none;
+}
+
+.unlock-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255,255,255,0.95);
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    font-size: 0.85rem;
+    color: var(--dark-red);
+    font-weight: 500;
+}
+
+/* 中间签诗栏 */
+.poem-column {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.qian-header-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.qian-number {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 1.4rem;
+    color: var(--dark-red);
+    margin-bottom: 8px;
+}
+
+.qian-gong {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: #666;
+    padding: 3px 10px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    margin-right: 8px;
+    background: rgba(0,0,0,0.02);
+}
+
+.qian-type {
+    display: inline-block;
+    font-size: 0.9rem;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.qian-type.superior { background: #ffd700; color: #8b0000; }
+.qian-type.good { background: #90EE90; color: #006400; }
+.qian-type.medium { background: #87CEEB; color: #191970; }
+.qian-type.lower { background: #d3d3d3; color: #2f4f4f; }
+.qian-type.inferior { background: #a9a9a9; color: #fff; }
+
+.guren-tag {
+    margin-top: 10px;
+    font-size: 0.95rem;
+    color: #555;
+    background: rgba(212, 175, 55, 0.15);
+    padding: 5px 12px;
+    border-radius: 4px;
+}
+
+.guren-tag span {
+    color: var(--dark-red);
+    font-weight: 500;
+}
+
+.poem-box {
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.poem-label {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 1.1rem;
+    color: var(--dark-red);
+    margin-bottom: 15px;
+    padding: 5px 20px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.poem-vertical {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    flex: 1;
+}
+
+.poem-line {
+    writing-mode: vertical-rl;
+    font-size: 1.5rem;
+    line-height: 2;
+    color: var(--ink-color);
+    font-family: 'Ma Shan Zheng', cursive;
+    height: 160px;
+}
+
+/* 右侧解签栏 */
+.jie-column {
+    background: rgba(212, 175, 55, 0.05);
+    border-left: 1px solid var(--border-color);
+    padding: 15px 10px;
+    position: relative;
+}
+
+.jie-title {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 1.3rem;
+    color: var(--dark-red);
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 10px;
+}
+
+.jie-content {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: #444;
+}
+
+.jie-content p {
+    margin-bottom: 8px;
+    text-indent: -1em;
+    padding-left: 1em;
+}
+
+/* 解签按钮区域 */
+.unlock-section {
+    padding: 20px;
+    text-align: center;
+    border-top: 2px dashed var(--border-color);
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.05), rgba(212, 175, 55, 0.05));
+}
+
+.unlock-btn {
+    display: inline-block;
+    padding: 14px 40px;
+    font-size: 1.1rem;
+    font-family: 'Noto Serif SC', serif;
+    background: linear-gradient(135deg, #c41e3a, #8b0000);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
+}
+
+.unlock-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.6);
+}
+
+/* 详细解读 */
+.detail-section {
+    padding: 20px;
+    background: rgba(139, 0, 0, 0.03);
+    border-top: 1px solid var(--border-color);
+}
+
+.detail-section h3 {
+    color: var(--dark-red);
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+.detail-section p {
+    line-height: 1.9;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+/* 按钮区域 */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.secondary-btn, .share-btn {
+    padding: 10px 25px;
+    font-size: 1rem;
+    font-family: 'Noto Serif SC', serif;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.secondary-btn {
+    background: white;
+    color: var(--dark-red);
+    border: 2px solid var(--dark-red);
+}
+
+.secondary-btn:hover {
+    background: var(--dark-red);
+    color: white;
+}
+
+.share-btn {
+    background: var(--primary-gold);
+    color: var(--deep-brown);
+    border: none;
+}
+
+.share-btn:hover {
+    background: var(--secondary-gold);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 25px 20px;
+    margin-top: 30px;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+footer p {
+    margin: 6px 0;
+    color: var(--cream);
+}
+
+.disclaimer {
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+.copyright-note {
+    font-size: 0.8rem;
+    color: var(--secondary-gold);
+    opacity: 0.5;
+}
+
+/* 响应式 */
+@media (max-width: 700px) {
+    .paper-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+    
+    .fortune-column {
+        order: 3;
+        border-right: none;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .fortune-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+    }
+    
+    .fortune-row {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .poem-column {
+        order: 1;
+    }
+    
+    .jie-column {
+        order: 2;
+        border-left: none;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .unlock-overlay {
+        display: none;
+    }
+    
+    .payment-content {
+        flex-direction: column;
+    }
+    
+    header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .poem-line {
+        font-size: 1.3rem;
+        height: 130px;
+    }
+}
