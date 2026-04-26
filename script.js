@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let sticks = [];
     let isDrawing = false;
     let currentQian = null;
-    let payCode = ''; // 付款备注后4位
+    let payCode = '';
     let isVerified = false;
     
     // 生成付款备注和后4位验证码
@@ -90,9 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
         isVerified = false;
         unlockBtn.disabled = true;
         unlockBtn.classList.remove('verified');
-        unlockBtn.innerHTML = '<span>🔒 请先付款并验证</span>';
+        unlockBtn.innerHTML = '<span>🔒 请先验证付款</span>';
         verifyInput.value = '';
         verifyError.textContent = '';
+        verifyError.style.color = '#c41e3a';
         
         // 签号信息
         document.getElementById('qian-number').textContent = qian.number;
@@ -107,9 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // 签诗竖排显示
         const poemElement = document.getElementById('poem');
         poemElement.innerHTML = qian.poem.map(line => `<div class="poem-line">${line}</div>`).join('');
-        
-        // 解曰预览（只显示前两句）
-        document.getElementById('jie-preview').innerHTML = qian.jieMain;
         
         // 生成付款备注
         generatePayRemark();
@@ -128,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (inputCode === payCode) {
             isVerified = true;
-            verifyError.textContent = '';
             verifyError.style.color = '#228B22';
             verifyError.textContent = '✓ 验证成功！';
             unlockBtn.disabled = false;
@@ -147,6 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // 签号信息
         document.getElementById('qian-number2').textContent = qian.number;
         document.getElementById('qian-gong2').textContent = qian.gong + '宫';
         
@@ -156,15 +154,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('guren-name2').textContent = qian.guren;
         
-        // 签诗竖排显示
+        // 签诗
         const poemElement2 = document.getElementById('poem2');
         poemElement2.innerHTML = qian.poem.map(line => `<div class="poem-line">${line}</div>`).join('');
         
-        document.getElementById('jie-main').innerHTML = qian.jieMain;
-        document.getElementById('jie-detail').textContent = qian.jieDetail;
+        // 解签内容
+        const jieContent = document.getElementById('jie-content');
+        jieContent.innerHTML = `
+            <p>${qian.jieMain}</p>
+            <p>${qian.jieDetail}</p>
+        `;
         
-        // 运势表格
-        const fortuneGrid = document.getElementById('fortune-grid');
+        // 运势列表
+        const fortuneList = document.getElementById('fortune-list');
         const fortuneLabels = {
             home: '家宅', self: '自身', wealth: '求财', trade: '交易',
             marriage: '婚姻', pregnancy: '六甲', traveler: '行人',
@@ -173,11 +175,11 @@ document.addEventListener('DOMContentLoaded', function() {
             illness: '疾病', grave: '山坟'
         };
         
-        fortuneGrid.innerHTML = Object.entries(qian.fortune).map(([key, value]) => {
+        fortuneList.innerHTML = Object.entries(qian.fortune).map(([key, value]) => {
             const label = fortuneLabels[key] || key;
-            const valueClass = value.includes('吉') || value.includes('成') || value.includes('安') ? 'good' : 
+            const valueClass = value.includes('吉') || value.includes('成') || value.includes('安') || value.includes('旺') ? 'good' : 
                               value.includes('凶') || value.includes('阻') || value.includes('难') || value.includes('空') || value.includes('杳') ? 'bad' : 'neutral';
-            return `<div class="fortune-item"><span class="label">${label}</span><span class="value ${valueClass}">${value}</span></div>`;
+            return `<div class="fortune-row"><span class="f-label">${label}</span><span class="f-value ${valueClass}">${value}</span></div>`;
         }).join('');
         
         // 详细解读
@@ -322,8 +324,8 @@ ${currentQian.poem.join('\n')}
         const particle = document.createElement('div');
         particle.style.cssText = `
             position: fixed;
-            width: 4px;
-            height: 4px;
+            width: 3px;
+            height: 3px;
             background: rgba(212, 175, 55, 0.3);
             border-radius: 50%;
             pointer-events: none;
@@ -347,7 +349,7 @@ ${currentQian.poem.join('\n')}
     `;
     document.head.appendChild(style);
     
-    setInterval(createParticle, 1200);
+    setInterval(createParticle, 1500);
     
     console.log('%c📜 古签解语 📜', 'font-size: 24px; color: #d4af37; font-weight: bold;');
 });
